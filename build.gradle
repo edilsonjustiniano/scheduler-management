@@ -1,0 +1,42 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id "io.freefair.lombok" version "5.1.0"
+	id 'java'
+	id 'idea'
+}
+group = 'com.edilson.justiniano'
+version = '1.0.0'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Mongo DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	// SWAGGER 2
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.10.5'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.10.5'
+
+	// Tests
+	testCompile group: 'junit', name: 'junit', version: '4.13'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '3.4.0'
+	testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.5.8'
+	compile group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version: '0.1.5'
+}
+
+build {
+	doLast {
+		ant.move(file: jar.archiveFile.get(), tofile: "${jar.archiveFileName.get()}")
+	}
+}
