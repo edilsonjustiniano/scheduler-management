@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edilson.justiniano.schedulelermanagement.api.job.model.JobRequest;
 import com.edilson.justiniano.schedulelermanagement.api.job.model.JobResponse;
+import com.edilson.justiniano.schedulelermanagement.api.job.model.SchedulerResponse;
 import com.edilson.justiniano.schedulelermanagement.api.job.service.JobService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JobController {
 
     private static final String JOBS_URL = "/schedulermanagement/v1/jobs";
+    private static final String REQUEST_PARAM_FROM = "from";
+    private static final String REQUEST_PARAM_TO = "to";
 
     private final JobService jobService;
 
@@ -47,5 +51,15 @@ public class JobController {
         return ResponseEntity
                 .status(CREATED)
                 .body(jobService.createJob(request));
+    }
+
+    @PostMapping(value = JOBS_URL + "/scheduler")
+    public ResponseEntity<List<SchedulerResponse>> postScheduler(@RequestParam(REQUEST_PARAM_FROM) String from,
+                                                                 @RequestParam(REQUEST_PARAM_TO) String to) {
+        log.info("Posting a scheduler.");
+
+        return ResponseEntity
+                .status(CREATED)
+                .body(jobService.createScheduler(from, to));
     }
 }
