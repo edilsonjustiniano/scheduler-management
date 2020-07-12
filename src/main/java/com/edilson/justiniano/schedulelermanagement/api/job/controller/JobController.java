@@ -54,8 +54,8 @@ public class JobController {
     }
 
     @PostMapping(value = JOBS_URL + "/scheduler")
-    public ResponseEntity<List<SchedulerResponse>> postScheduler(@RequestParam(REQUEST_PARAM_FROM) String from,
-                                                                 @RequestParam(REQUEST_PARAM_TO) String to) {
+    public ResponseEntity<SchedulerResponse> postScheduler(@RequestParam(REQUEST_PARAM_FROM) String from,
+                                                           @RequestParam(REQUEST_PARAM_TO) String to) {
         log.info("Posting a scheduler.");
 
         return ResponseEntity

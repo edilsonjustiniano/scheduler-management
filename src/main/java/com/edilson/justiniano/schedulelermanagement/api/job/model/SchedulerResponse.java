@@ -11,5 +11,5 @@ import lombok.Data;
 @Builder
 public class SchedulerResponse {
 
-    List<String> jobIds;
+    List<List<String>> jobIds;
 }

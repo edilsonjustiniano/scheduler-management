@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class JobService {
 
+    private static final int EIGHT_HOURS = 8;
+
     private final JobRepository repository;
     private final JobBuilder builder;
 
@@ -42,33 +44,36 @@ public class JobService {
         return builder.buildJobResponse(job);
     }
 
-    public List<SchedulerResponse> createScheduler(String from, String to) {
-
+    public SchedulerResponse createScheduler(String from, String to) {
+        log.info("Creating the scheduler of jobs. From: {} and To: {}.", from, to);
         LocalDateTime fromDate = LocalDateTime.parse(from, Job.DATETIME_FORMATTER);
         LocalDateTime toDate = LocalDateTime.parse(to, Job.DATETIME_FORMATTER);
 
         List<Job> jobs = repository.findAllByConclusionDeadlineBetween(fromDate, toDate);
 
-        List<SchedulerResponse> response = new ArrayList<>();
-        List<String> jobIds = new ArrayList<>();
+        List<String> jobsInEightHours = new ArrayList<>();
+        List<List<String>> jobMatrix = new ArrayList<>();
         AtomicReference<Float> estimatedTimeSum = new AtomicReference<>(0F);
 
-        //TODO: Fix the logic.
-
-        // Must handle a single job
-        // Must handle multiple jobs, like one for 2.5 h the second one with 6h and the last one as 4 hours.
         jobs.forEach(job -> {
-            if ((job.getEstimatedTime() + estimatedTimeSum.get()) <= 8) {
-                estimatedTimeSum.updateAndGet(v -> (v + job.getEstimatedTime()));
-                jobIds.add(job.getId());
+            if (job.getEstimatedTime() > EIGHT_HOURS) {
+                log.info("Ignoring the job with estimated time bigger than 8 hours. {}.", job.log());
             } else {
-                response.add(builder.buildSchedulerResponse(new ArrayList<>(jobIds)));
-                jobIds.clear();
-                estimatedTimeSum.set(0F);
+                if ((job.getEstimatedTime() + estimatedTimeSum.get()) <= EIGHT_HOURS) {
+                    estimatedTimeSum.updateAndGet(v -> (v + job.getEstimatedTime())); // Increment the sum of estimatedTime
+                } else {
+                    jobMatrix.add(new ArrayList<>(jobsInEightHours)); //Clone/Copy the JOB IDs line to the matrix of JOB IDs
+                    jobsInEightHours.clear(); // Clean the JOB Ids list, once the estimated time reached out
+                    estimatedTimeSum.set(job.getEstimatedTime()); // Reset the sum of estimatedTime to the current job estimated time
+                }
+                // Add the current JOB Id to the list of jobs.
+                jobsInEightHours.add(job.getId());
             }
         });
 
-        return response;
-    }
+        // At the end, add the current list of JOB IDs (the last small than 8 hours) to the matrix of jobIds.
+        jobMatrix.add(jobsInEightHours);
 
+        return builder.buildSchedulerResponse(jobMatrix);
+    }
 }

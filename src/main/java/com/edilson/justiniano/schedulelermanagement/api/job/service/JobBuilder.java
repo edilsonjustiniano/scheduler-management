@@ -32,8 +32,10 @@ public class JobBuilder {
                 .build();
     }
 
-    public SchedulerResponse buildSchedulerResponse(List<String> jobIds) {
-        return SchedulerResponse.builder().jobIds(jobIds).build();
+    public SchedulerResponse buildSchedulerResponse(List<List<String>> jobMatrix) {
+        return SchedulerResponse.builder()
+                .jobIds(jobMatrix)
+                .build();
     }
 
     private LocalDateTime buildConclusionDeadline(JobRequest request) {
