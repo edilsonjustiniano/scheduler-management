@@ -58,7 +58,7 @@ public class JobService {
         jobs.stream()
                 .filter(Job::isEstimatedTimeUnderLimit)
                 .forEach(job -> {
-                    if ((job.getEstimatedTime() + estimatedTimeSum.get()) <= JOB_LIMIT_TIME) {
+                    if (isEstimatedTimeLimitReached(estimatedTimeSum, job)) {
                         estimatedTimeSum.updateAndGet(v -> (v + job.getEstimatedTime())); // Increment the sum of estimatedTime
                     } else {
                         jobMatrix.add(new ArrayList<>(jobsInEightHours)); //Clone/Copy the JOB IDs line to the matrix of JOB IDs
@@ -73,5 +73,9 @@ public class JobService {
         jobMatrix.add(jobsInEightHours);
 
         return builder.buildSchedulerResponse(jobMatrix);
+    }
+
+    private boolean isEstimatedTimeLimitReached(AtomicReference<Float> estimatedTimeSum, Job job) {
+        return (job.getEstimatedTime() + estimatedTimeSum.get()) <= JOB_LIMIT_TIME;
     }
 }
