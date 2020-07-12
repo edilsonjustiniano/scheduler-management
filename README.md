@@ -13,6 +13,7 @@ Tt was created a Spring Boot RESTfull API. using the following the following tec
 - Docker
 - Docker-compose
 - Gradle
+- Lombok
 
 I used as principle the `Clean Architecture` as most as possible. It was not complete `Clean Architecture` because I used a Spring Boot and
 MongoDB, but if you have a look deeply on this repository you will be able to see that no extra knowledge is required to test the application.
