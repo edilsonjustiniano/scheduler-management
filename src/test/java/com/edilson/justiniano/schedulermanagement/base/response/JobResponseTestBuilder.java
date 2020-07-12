@@ -23,7 +23,7 @@ public final class JobResponseTestBuilder {
     private JobResponseTestBuilder() {
     }
 
-    public static JobResponseTestBuilder aRequest() {
+    public static JobResponseTestBuilder aResponse() {
         return new JobResponseTestBuilder();
     }
 
@@ -48,19 +48,19 @@ public final class JobResponseTestBuilder {
     }
 
     public static JobResponseTestBuilder aTwoHoursJob() {
-        return aRequest().id(DEFAULT_JOB_ID_TWO_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_TWO_HOURS);
+        return aResponse().id(DEFAULT_JOB_ID_TWO_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_TWO_HOURS);
     }
 
     public static JobResponseTestBuilder aSixHoursJob() {
-        return aRequest().id(DEFAULT_JOB_ID_SIX_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_SIX_HOURS);
+        return aResponse().id(DEFAULT_JOB_ID_SIX_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_SIX_HOURS);
     }
 
     public static JobResponseTestBuilder aSevenHoursJob() {
-        return aRequest().id(DEFAULT_JOB_ID_SEVEN_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_SEVEN_HOURS);
+        return aResponse().id(DEFAULT_JOB_ID_SEVEN_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_SEVEN_HOURS);
     }
 
     public static JobResponseTestBuilder aNineHoursJob() {
-        return aRequest().id(DEFAULT_JOB_ID_NINE_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_NINE_HOURS);
+        return aResponse().id(DEFAULT_JOB_ID_NINE_HOURS).estimatedTime(DEFAULT_JOB_ESTIMATED_TIME_NINE_HOURS);
     }
 
     public JobResponse build() {
