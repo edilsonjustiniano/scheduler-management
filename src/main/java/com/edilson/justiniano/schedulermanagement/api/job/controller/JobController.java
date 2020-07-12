@@ -54,6 +54,9 @@ public class JobController {
                 .body(jobService.createJob(request));
     }
 
+    // I didn't create the date validation format. But I could do that using the parser of the LocalDateTime.
+    // But I understand that the idea is not create a Exception handling. So, I believe the user, myself in this case
+    // is using the valid format "yyyy-MM-dd HH:mm:ss"
     @PostMapping(value = SCHEDULER_JOBS_URL_V1)
     public ResponseEntity<SchedulerResponse> postScheduler(@RequestParam(REQUEST_PARAM_FROM) String from,
                                                            @RequestParam(REQUEST_PARAM_TO) String to) {
