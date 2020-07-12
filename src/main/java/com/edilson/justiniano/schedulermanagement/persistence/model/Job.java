@@ -24,12 +24,18 @@ import lombok.NoArgsConstructor;
 public class Job {
 
     public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final float JOB_LIMIT_TIME = 8F;
 
     @Id
     private String id;
     private String description;
     private LocalDateTime conclusionDeadline;
     private float estimatedTime; // Estimated time in hours 0.5, 1, 1.5...
+
+    @Transient
+    public boolean isEstimatedTimeUnderLimit() {
+        return estimatedTime <= JOB_LIMIT_TIME;
+    }
 
     @Transient
     public String log() {

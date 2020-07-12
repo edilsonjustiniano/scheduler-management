@@ -46,7 +46,8 @@ public class JobController {
     public ResponseEntity<JobResponse> postJob(@RequestBody JobRequest request) {
         log.info("Posting a job.");
 
-        // TODO: Create a validator, just to validate the data format parsing
+        // I could create a Spring Validator to validate the conclusion deadline, Check if it does have a valid format.
+        // It means the format like: yyyy-MM-dd HH:mm:ss
 
         return ResponseEntity
                 .status(CREATED)

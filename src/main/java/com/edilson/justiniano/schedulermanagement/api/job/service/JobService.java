@@ -1,5 +1,7 @@
 package com.edilson.justiniano.schedulermanagement.api.job.service;
 
+import static com.edilson.justiniano.schedulermanagement.persistence.model.Job.JOB_LIMIT_TIME;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class JobService {
-
-    private static final int EIGHT_HOURS = 8;
 
     private final JobRepository repository;
     private final JobBuilder builder;
@@ -53,23 +53,21 @@ public class JobService {
 
         List<String> jobsInEightHours = new ArrayList<>();
         List<List<String>> jobMatrix = new ArrayList<>();
-        AtomicReference<Float> estimatedTimeSum = new AtomicReference<>(0F);
+        AtomicReference<Float> estimatedTimeSum = new AtomicReference<>(0F); // using Atomic float in order to change it inside the stream
 
-        jobs.forEach(job -> {
-            if (job.getEstimatedTime() > EIGHT_HOURS) {
-                log.info("Ignoring the job with estimated time bigger than 8 hours. {}.", job.log());
-            } else {
-                if ((job.getEstimatedTime() + estimatedTimeSum.get()) <= EIGHT_HOURS) {
-                    estimatedTimeSum.updateAndGet(v -> (v + job.getEstimatedTime())); // Increment the sum of estimatedTime
-                } else {
-                    jobMatrix.add(new ArrayList<>(jobsInEightHours)); //Clone/Copy the JOB IDs line to the matrix of JOB IDs
-                    jobsInEightHours.clear(); // Clean the JOB Ids list, once the estimated time reached out
-                    estimatedTimeSum.set(job.getEstimatedTime()); // Reset the sum of estimatedTime to the current job estimated time
-                }
-                // Add the current JOB Id to the list of jobs.
-                jobsInEightHours.add(job.getId());
-            }
-        });
+        jobs.stream()
+                .filter(Job::isEstimatedTimeUnderLimit)
+                .forEach(job -> {
+                    if ((job.getEstimatedTime() + estimatedTimeSum.get()) <= JOB_LIMIT_TIME) {
+                        estimatedTimeSum.updateAndGet(v -> (v + job.getEstimatedTime())); // Increment the sum of estimatedTime
+                    } else {
+                        jobMatrix.add(new ArrayList<>(jobsInEightHours)); //Clone/Copy the JOB IDs line to the matrix of JOB IDs
+                        jobsInEightHours.clear(); // Clean the JOB Ids list, once the estimated time reached out
+                        estimatedTimeSum.set(job.getEstimatedTime()); // Reset the sum of estimatedTime to the current job estimated time
+                    }
+                    // Add the current JOB Id to the list of jobs.
+                    jobsInEightHours.add(job.getId());
+                });
 
         // At the end, add the current list of JOB IDs (the last small than 8 hours) to the matrix of jobIds.
         jobMatrix.add(jobsInEightHours);
