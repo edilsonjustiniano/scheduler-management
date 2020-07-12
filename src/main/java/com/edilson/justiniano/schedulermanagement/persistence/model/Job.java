@@ -1,8 +1,8 @@
-package com.edilson.justiniano.schedulelermanagement.persistence.model;
+package com.edilson.justiniano.schedulermanagement.persistence.model;
 
-import static com.edilson.justiniano.schedulelermanagement.persistence.PersistenceConstants.LOG_CONCLUSION_DEADLINE;
-import static com.edilson.justiniano.schedulelermanagement.persistence.PersistenceConstants.LOG_ESTIMATED_TIME;
-import static com.edilson.justiniano.schedulelermanagement.persistence.PersistenceConstants.LOG_ID;
+import static com.edilson.justiniano.schedulermanagement.persistence.PersistenceConstants.LOG_CONCLUSION_DEADLINE;
+import static com.edilson.justiniano.schedulermanagement.persistence.PersistenceConstants.LOG_ESTIMATED_TIME;
+import static com.edilson.justiniano.schedulermanagement.persistence.PersistenceConstants.LOG_ID;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

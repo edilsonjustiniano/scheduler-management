@@ -1,4 +1,4 @@
-package com.edilson.justiniano.schedulelermanagement.api.job.service;
+package com.edilson.justiniano.schedulermanagement.api.job.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.edilson.justiniano.schedulelermanagement.api.job.model.JobRequest;
-import com.edilson.justiniano.schedulelermanagement.api.job.model.JobResponse;
-import com.edilson.justiniano.schedulelermanagement.api.job.model.SchedulerResponse;
-import com.edilson.justiniano.schedulelermanagement.persistence.model.Job;
-import com.edilson.justiniano.schedulelermanagement.persistence.repository.JobRepository;
+import com.edilson.justiniano.schedulermanagement.api.job.model.JobRequest;
+import com.edilson.justiniano.schedulermanagement.api.job.model.JobResponse;
+import com.edilson.justiniano.schedulermanagement.api.job.model.SchedulerResponse;
+import com.edilson.justiniano.schedulermanagement.persistence.model.Job;
+import com.edilson.justiniano.schedulermanagement.persistence.repository.JobRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

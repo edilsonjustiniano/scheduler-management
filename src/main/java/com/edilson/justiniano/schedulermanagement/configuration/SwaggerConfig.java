@@ -1,4 +1,4 @@
-package com.edilson.justiniano.schedulelermanagement.configuration;
+package com.edilson.justiniano.schedulermanagement.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,23 +14,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig extends WebMvcConfigurationSupport {
 
-    @Bean
-    public Docket greetingApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.edilson.justiniano.schedulermanagement"))
-                .build()
-                .apiInfo(metaData());
-
-    }
-
-    private ApiInfo metaData() {
-        return new ApiInfoBuilder()
-                .title("Spring Boot REST Kalah's game API")
-                .version("1.0.0")
-                .build();
-    }
-
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -38,5 +21,21 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Bean
+    public Docket greetingApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.edilson.justiniano.schedulermanagement"))
+                .build()
+                .apiInfo(metaData());
+    }
+
+    private ApiInfo metaData() {
+        return new ApiInfoBuilder()
+                .title("Scheduler Management REST API")
+                .version("1.0.0")
+                .build();
     }
 }

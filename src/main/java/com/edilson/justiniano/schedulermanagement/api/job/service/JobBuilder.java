@@ -1,16 +1,16 @@
-package com.edilson.justiniano.schedulelermanagement.api.job.service;
+package com.edilson.justiniano.schedulermanagement.api.job.service;
 
-import static com.edilson.justiniano.schedulelermanagement.persistence.model.Job.DATETIME_FORMATTER;
+import static com.edilson.justiniano.schedulermanagement.persistence.model.Job.DATETIME_FORMATTER;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.edilson.justiniano.schedulelermanagement.api.job.model.JobRequest;
-import com.edilson.justiniano.schedulelermanagement.api.job.model.JobResponse;
-import com.edilson.justiniano.schedulelermanagement.api.job.model.SchedulerResponse;
-import com.edilson.justiniano.schedulelermanagement.persistence.model.Job;
+import com.edilson.justiniano.schedulermanagement.api.job.model.JobRequest;
+import com.edilson.justiniano.schedulermanagement.api.job.model.JobResponse;
+import com.edilson.justiniano.schedulermanagement.api.job.model.SchedulerResponse;
+import com.edilson.justiniano.schedulermanagement.persistence.model.Job;
 
 @Component
 public class JobBuilder {

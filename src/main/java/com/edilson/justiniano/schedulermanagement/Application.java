@@ -1,11 +1,11 @@
-package com.edilson.justiniano.schedulelermanagement;
+package com.edilson.justiniano.schedulermanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableSwagger2WebMvc
+@EnableSwagger2
 @SpringBootApplication
 public class Application {
 

@@ -1,4 +1,4 @@
-package com.edilson.justiniano.schedulelermanagement.api.job.model;
+package com.edilson.justiniano.schedulermanagement.api.job.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.edilson.justiniano.schedulelermanagement.configuration;
+package com.edilson.justiniano.schedulermanagement.configuration;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;

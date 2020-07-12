@@ -1,4 +1,4 @@
-package com.edilson.justiniano.schedulelermanagement.persistence;
+package com.edilson.justiniano.schedulermanagement.persistence;
 
 public final class PersistenceConstants {
 
