@@ -1,5 +1,9 @@
 package com.edilson.justiniano.schedulermanagement.api.job.controller;
 
+import static com.edilson.justiniano.schedulermanagement.api.job.ApiConstants.JOB_URL_V1;
+import static com.edilson.justiniano.schedulermanagement.api.job.ApiConstants.REQUEST_PARAM_FROM;
+import static com.edilson.justiniano.schedulermanagement.api.job.ApiConstants.REQUEST_PARAM_TO;
+import static com.edilson.justiniano.schedulermanagement.api.job.ApiConstants.SCHEDULER_JOBS_URL_V1;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -26,14 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class JobController {
 
-    private static final String JOBS_URL = "/schedulermanagement/v1/jobs";
-    private static final String REQUEST_PARAM_FROM = "from";
-    private static final String REQUEST_PARAM_TO = "to";
-
     private final JobService jobService;
 
     // I could use Pageable, but the idea is not create a complete CRUD application.
-    @GetMapping(value = JOBS_URL)
+    @GetMapping(value = JOB_URL_V1)
     public ResponseEntity<List<JobResponse>> getJobs() {
         log.info("Getting the jobs.");
 
@@ -42,7 +42,7 @@ public class JobController {
                 .body(jobService.searchJobs());
     }
 
-    @PostMapping(value = JOBS_URL, consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = JOB_URL_V1, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<JobResponse> postJob(@RequestBody JobRequest request) {
         log.info("Posting a job.");
 
@@ -54,7 +54,7 @@ public class JobController {
                 .body(jobService.createJob(request));
     }
 
-    @PostMapping(value = JOBS_URL + "/scheduler")
+    @PostMapping(value = SCHEDULER_JOBS_URL_V1)
     public ResponseEntity<SchedulerResponse> postScheduler(@RequestParam(REQUEST_PARAM_FROM) String from,
                                                            @RequestParam(REQUEST_PARAM_TO) String to) {
         log.info("Posting a scheduler.");
