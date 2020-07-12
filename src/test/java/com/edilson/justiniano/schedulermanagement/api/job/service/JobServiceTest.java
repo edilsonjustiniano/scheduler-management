@@ -1,10 +1,18 @@
 package com.edilson.justiniano.schedulermanagement.api.job.service;
 
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_CONCLUSION_DEADLINE;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_CONCLUSION_DEADLINE_DATETIME;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_CONCLUSION_FROM;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_CONCLUSION_FROM_DATETIME;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_JOB_ID_SEVEN_HOURS;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_JOB_ID_SIX_HOURS;
+import static com.edilson.justiniano.schedulermanagement.base.DefaultConstants.DEFAULT_JOB_ID_TWO_HOURS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -15,9 +23,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.edilson.justiniano.schedulermanagement.api.job.model.JobRequest;
 import com.edilson.justiniano.schedulermanagement.api.job.model.JobResponse;
+import com.edilson.justiniano.schedulermanagement.api.job.model.SchedulerResponse;
 import com.edilson.justiniano.schedulermanagement.base.entity.JobTestBuilder;
 import com.edilson.justiniano.schedulermanagement.base.request.JobRequestTestBuilder;
 import com.edilson.justiniano.schedulermanagement.base.response.JobResponseTestBuilder;
+import com.edilson.justiniano.schedulermanagement.base.response.SchedulerResponseTestBuilder;
 import com.edilson.justiniano.schedulermanagement.persistence.model.Job;
 import com.edilson.justiniano.schedulermanagement.persistence.repository.JobRepository;
 
@@ -88,12 +98,50 @@ public class JobServiceTest {
     }
 
     @Test
-    public void createAFullSchedulerShouldReturnIt() {
+    public void createAFullSchedulerAndShouldReturnIt() {
         // given
-        
+        Job jobTwoHours = JobTestBuilder.aTwoHoursJob().build();
+        Job jobSixHours = JobTestBuilder.aSixHoursJob().build();
+        Job jobSevenHours = JobTestBuilder.aSevenHoursJob().build();
+        Job jobNineHours = JobTestBuilder.aNineHoursJob().build();
+        List<Job> jobs = Arrays.asList(jobTwoHours, jobSixHours, jobSevenHours, jobNineHours);
+
+        // and
+        List<List<String>> schedulerJobs = Arrays.asList(Arrays.asList(DEFAULT_JOB_ID_TWO_HOURS, DEFAULT_JOB_ID_SIX_HOURS),
+                Collections.singletonList(DEFAULT_JOB_ID_SEVEN_HOURS));
+        SchedulerResponse expectedResponse = SchedulerResponseTestBuilder.aFullScheduler().build();
+
+        // and
+        given(repository.findAllByConclusionDeadlineBetween(DEFAULT_CONCLUSION_FROM_DATETIME, DEFAULT_CONCLUSION_DEADLINE_DATETIME))
+                .willReturn(jobs);
+        given(builder.buildSchedulerResponse(schedulerJobs)).willReturn(expectedResponse);
 
         // when
+        SchedulerResponse actualResponse = jobService.createScheduler(DEFAULT_CONCLUSION_FROM, DEFAULT_CONCLUSION_DEADLINE);
 
         // then
+        assertThat(actualResponse, equalTo(expectedResponse));
+    }
+
+    @Test
+    public void createAMinimalSchedulerAndShouldReturnIt() {
+        // given
+        Job jobTwoHours = JobTestBuilder.aTwoHoursJob().build();
+        List<Job> jobs = Collections.singletonList(jobTwoHours);
+
+        // and
+        List<List<String>> schedulerJobs = Collections.singletonList(Collections.singletonList(DEFAULT_JOB_ID_TWO_HOURS));
+        SchedulerResponse expectedResponse = SchedulerResponseTestBuilder.aMinimalScheduler().build();
+
+        // and
+        given(repository.findAllByConclusionDeadlineBetween(DEFAULT_CONCLUSION_FROM_DATETIME, DEFAULT_CONCLUSION_DEADLINE_DATETIME))
+                .willReturn(jobs);
+        given(builder.buildSchedulerResponse(schedulerJobs)).willReturn(expectedResponse);
+
+        // when
+        SchedulerResponse actualResponse = jobService.createScheduler(DEFAULT_CONCLUSION_FROM, DEFAULT_CONCLUSION_DEADLINE);
+
+        // then
+        assertThat(actualResponse, equalTo(expectedResponse));
     }
 }

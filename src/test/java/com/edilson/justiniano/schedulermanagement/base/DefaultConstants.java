@@ -15,6 +15,7 @@ public final class DefaultConstants {
     public static final String DEFAULT_JOB_DESCRIPTION = "description";
     public static final String DEFAULT_CONCLUSION_FROM = "2020-07-01 23:59:59";
     public static final String DEFAULT_CONCLUSION_DEADLINE = "2020-07-20 23:59:59";
+    public static final LocalDateTime DEFAULT_CONCLUSION_FROM_DATETIME = LocalDateTime.of(2020, 7, 1, 23, 59, 59);
     public static final LocalDateTime DEFAULT_CONCLUSION_DEADLINE_DATETIME = LocalDateTime.of(2020, 7, 20, 23, 59, 59);
 
     public static final float DEFAULT_JOB_ESTIMATED_TIME_TWO_HOURS = 2F;
